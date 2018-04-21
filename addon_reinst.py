@@ -22,6 +22,7 @@ release_path = ''   # type here path to copy add-on archive for release     Ex: 
 
 # -------------------------------------------
 
+
 def install_addon():
     addon_path = os.path.join(source_path, addon_name)
 
@@ -65,7 +66,7 @@ def install_addon():
         # remove from memory
         for module in list(sys.modules.keys()):
             if hasattr(sys.modules[module], '__package__'):
-                if (sys.modules[module].__package__ == addon_name):
+                if sys.modules[module].__package__ == addon_name:
                     del sys.modules[module]
         # install add-on
         bpy.ops.wm.addon_install(filepath=addon_zip_path, overwrite=True)
@@ -73,7 +74,7 @@ def install_addon():
         bpy.ops.wm.addon_enable(module=addon_name)
 
 
-def add_path_by_mask(root_path, masks_list, file_list=[]):
+def add_path_by_mask(root_path, masks_list, file_list):
     for mask in masks_list:
         for file in glob.glob(os.path.join(root_path, mask)):
             file_list.append(file)
