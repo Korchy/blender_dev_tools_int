@@ -65,7 +65,7 @@ def install_addon():
             shutil.copy(addon_zip_path, release_path)
 
         # remove old add-on version
-        bpy.ops.preferences.addon_disable(module=addon_name)
+        # bpy.ops.preferences.addon_disable(module=addon_name)
         bpy.ops.preferences.addon_remove(module=addon_name)
         # remove from memory
         for module in list(sys.modules.keys()):
