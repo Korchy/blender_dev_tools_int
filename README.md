@@ -7,7 +7,7 @@ Script for easy installation / reinstallation developed add-on.
 
 **File versions**
 
-addon_reinst.py - for Blender 2.8
+addon_reinst.py - for Blender 2.8 (2019.03.06)
 
 addon_reinst_2_7.py - for Blender 2.7
 
