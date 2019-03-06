@@ -5,7 +5,13 @@ Tools for Blender 3D developement.
 ---
 Script for easy installation / reinstallation developed add-on.
 
-Usage:
+**File versions**
+
+addon_reinst.py - for Blender 2.8
+
+addon_reinst_2_7.py - for Blender 2.7
+
+**Usage:**
 - Copy script to the Blender Text Editor
 - Specify requred parameters in the special section
     - addon_name - name of the add-on source directory

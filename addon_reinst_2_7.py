@@ -6,7 +6,7 @@
 #
 # Script for easy reinstalling Blender 3D add-ons from source directory
 #
-#   This version is for Blender 2.8
+#   This version is for Blender 2.7
 #
 
 import tempfile
@@ -65,17 +65,17 @@ def install_addon():
             shutil.copy(addon_zip_path, release_path)
 
         # remove old add-on version
-        bpy.ops.preferences.addon_disable(module=addon_name)
-        bpy.ops.preferences.addon_remove(module=addon_name)
+        bpy.ops.wm.addon_disable(module=addon_name)
+        bpy.ops.wm.addon_remove(module=addon_name)
         # remove from memory
         for module in list(sys.modules.keys()):
             if hasattr(sys.modules[module], '__package__'):
                 if sys.modules[module].__package__ == addon_name:
                     del sys.modules[module]
         # install add-on
-        bpy.ops.preferences.addon_install(filepath=addon_zip_path, overwrite=True)
+        bpy.ops.wm.addon_install(filepath=addon_zip_path, overwrite=True)
         # activate add-on
-        bpy.ops.preferences.addon_enable(module=addon_name)
+        bpy.ops.wm.addon_enable(module=addon_name)
 
 
 def add_path_by_mask(root_path, masks_list, file_list):
