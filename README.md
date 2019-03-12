@@ -7,9 +7,9 @@ Script for easy installation / reinstallation developed add-on.
 
 **File versions**
 
-addon_reinst.py - for Blender 2.8 (2019.03.06)
+addon_reinst_multifile.py - multifile add-on reinstall for Blender 2.8 (2019.03.06)
 
-addon_reinst_2_7.py - for Blender 2.7
+addon_reinst_singlefile.py - single module add-on reinstall
 
 **Usage:**
 - Copy script to the Blender Text Editor

@@ -4,7 +4,7 @@
 # GitHub
 #   https://github.com/Korchy/blender_dev_tools_int
 #
-# Script for easy reinstalling Blender 3D add-ons from source directory
+# Script for easy reinstalling multifile Blender 3D add-ons from source directory
 #
 #   This version is for Blender 2.8
 #
@@ -85,5 +85,6 @@ def add_path_by_mask(root_path, masks_list, file_list):
 
 
 if __name__ == '__main__':
+    print('-'*50)
     install_addon()
     print('-'*50)
