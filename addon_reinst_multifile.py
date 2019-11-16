@@ -19,11 +19,12 @@ import sys
 
 # --- required custom parameters ------------
 
-addon_name = ''     # type here add-on name (source directory name)         Ex: addon_name = 'my_addoon'
-source_path = ''    # type here full path to add-on source directory        Ex: source_path = '/dev/blender/'
-files_mask = ['*.py', 'LICENSE', 'README.md', 'cfg.json']   # add required masks for the add-on files
-submodule_mask = ['*.py', 'LICENSE', 'README.md']   # add required masks for the files from git submodules
-release_path = ''   # type here path to copy add-on archive for release     Ex: release_path = '/dev/blender/releases/'
+addon_name = 'blender-wire'  # type here add-on name (source directory name)         Ex: addon_name = 'my_addoon'
+source_path = 'i:/dev/python/blender'  # type here full path to add-on source directory        Ex: source_path = '/dev/blender/'
+files_mask = ['*.py', 'LICENSE', 'README.md', 'cfg.json']  # add required masks for the add-on files
+submodule_mask = ['*.py', 'LICENSE', 'README.md']  # add required masks for the files from git submodules
+config_file_name = 'cfg.json'  # config file name
+release_path = ''  # type here path to copy add-on archive for release     Ex: release_path = '/dev/blender/releases/'
 
 # -------------------------------------------
 
@@ -46,17 +47,14 @@ def install_addon():
     # if cfg.json exists and 'dev_mode' parameter exists - switch to release
     dev_mode = None
     cfg_data = {}
-    conf_file_path = os.path.abspath(os.path.join(source_path, addon_name, 'cfg.json'))
+    conf_file_path = os.path.abspath(os.path.join(source_path, addon_name, config_file_name))
     if os.path.exists(conf_file_path):
         with open(conf_file_path) as conf_file:
             cfg_data = json.load(conf_file)
             conf_file.close()
     if 'dev_mode' in cfg_data:
         dev_mode = cfg_data['dev_mode']
-        cfg_data['dev_mode'] = False    # enable 'release' mode
-        with open(conf_file_path, 'w') as conf_file:
-            json.dump(cfg_data, conf_file, indent=4)
-            conf_file.close()
+        cfg_data['dev_mode'] = False  # change to 'release' mode
 
     # create archive
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -66,12 +64,21 @@ def install_addon():
 
         os.makedirs(addon_folder_to_files)
 
+        # copy files to temp directory
         for file in files:
             current_file_path = os.path.join(addon_folder_to_files, os.path.relpath(file, addon_path))
             if not os.path.exists(os.path.dirname(current_file_path)):
                 os.makedirs(os.path.dirname(current_file_path))
             shutil.copy(file, current_file_path)
 
+        # enable 'release' mode in cfg file
+        if config_file_name:
+            current_config_file_path = os.path.join(addon_folder_to_files, os.path.relpath(conf_file_path, addon_path))
+            with open(current_config_file_path, 'w') as conf_file:
+                json.dump(cfg_data, conf_file, indent=4)
+                conf_file.close()
+
+        # make zip-archieve
         shutil.make_archive(addon_folder_to_zip, 'zip', addon_folder_to_zip)
 
         addon_zip_path = addon_folder_to_zip + '.zip'
@@ -93,13 +100,6 @@ def install_addon():
         # activate add-on
         bpy.ops.preferences.addon_enable(module=addon_name)
 
-    # return 'dev_mode' to cfg.json if exists
-    if dev_mode is not None:
-        cfg_data['dev_mode'] = dev_mode     # return prev value
-        with open(conf_file_path, 'w') as conf_file:
-            json.dump(cfg_data, conf_file, indent=4)
-            conf_file.close()
-
 
 def add_path_by_mask(root_path, masks_list, file_list):
     for mask in masks_list:
@@ -108,6 +108,6 @@ def add_path_by_mask(root_path, masks_list, file_list):
 
 
 if __name__ == '__main__':
-    print('-'*50)
+    print('-' * 50)
     install_addon()
-    print('-'*50)
+    print('-' * 50)
